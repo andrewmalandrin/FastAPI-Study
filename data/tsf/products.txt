@@ -65,4 +65,4 @@ Suco de Uva - Aurora	200	32	0	0	0
 Suco de Uva - Del Valle - Macdonalds	500	49	0	0	0
 Tapioca da Terrinha	60	36	0	0	0
 Uva Roxa	100	21	8,6	0	0
-Whey Protein - Growth - 80% - Choco 	30	4	23	1,6	0
+Whey Protein 80 - Growth - Chocolate	30	4	23	1,6	0
