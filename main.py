@@ -10,6 +10,17 @@ app = FastAPI()
 def index():
     return 'Welcome to the FastAPI training project from Andrew Malandrin'
 
+@app.get('/products/{product_name}')
+def get_product(product_name: str = ""):
+    return load_file.get_product_by_name(product_name)
+
+@app.get('/products')
+def get_products() -> array:
+    products = load_file.tsv_read_file()
+    return products
+
+
+
 # @app.get('/products/{item}')
 # def get_products(item: str) -> object:
 #     products = {
@@ -40,8 +51,3 @@ def index():
 #     print(type(attribute))
 #     return products.get(item)[attribute]
 
-@app.get('/products')
-def get_products() -> array:
-    path = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/products.txt'
-    products = load_file.tsv_read_file(path)
-    return products

@@ -1,6 +1,15 @@
 import csv
 
-def tsv_read_file(path):
+def get_product_by_name(product_name):
+    products = tsv_read_file()
+    for product in products:
+        if product['name'] == product_name:
+            print(product['name'])
+            return product
+    return {"Error":"no product matches the name passed on the path"}
+
+def tsv_read_file():
+    path = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/products.txt'
     print("lendo arquivo: ", path)
     with open(path, 'r', encoding='utf-8') as tsv_file:
         tsv_reader = csv.reader(tsv_file, delimiter='\t')
@@ -25,5 +34,7 @@ def tsv_read_file(path):
                 products.append(product)
     
     return products
+
+
 
 #tsv_read_file('D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/products.txt', 'Suco de Uva - Del Valle - Macdonalds')
