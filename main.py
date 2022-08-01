@@ -1,5 +1,5 @@
 from array import array
-from collections import namedtuple
+from typing import Optional
 from fastapi import FastAPI
 from pydantic import Json
 from app.file_mgmt import load_file
@@ -11,8 +11,19 @@ def index():
     return 'Welcome to the FastAPI training project from Andrew Malandrin'
 
 @app.get('/products/{product_name}')
-def get_product(product_name: str = ""):
-    return load_file.get_product_by_name(product_name)
+def get_product(product_name: str = "", portion: Optional[int] = None):
+    
+    if portion == None:
+        return load_file.get_product_by_name(product_name)
+    else:
+        try:
+            product = load_file.get_product_by_name(product_name)
+            product = load_file.calculate_by_portion(product, portion)
+            
+            return product
+        except Exception as exception:
+            print(exception)
+            return exception
 
 @app.get('/products')
 def get_products() -> array:
@@ -20,34 +31,4 @@ def get_products() -> array:
     return products
 
 
-
-# @app.get('/products/{item}')
-# def get_products(item: str) -> object:
-#     products = {
-#         "menovo_computer": {
-#             "name": "computer menovo",
-#             "price": "250000"
-#         },
-#         "portair_keyboard": {
-#             "name": "keyboard portair",
-#             "price": "15000"
-#         }
-#     }
-
-#     return products.get(item)
-
-# @app.get('/products/{item}/{attribute}')
-# def get_products_attribute(item, attribute: int = 0) -> Json:
-#     products = {
-#         "menovo_computer": {
-#             "name": "computer menovo",
-#             1: "250000"
-#         },
-#         "portair_keyboard": {
-#             "name": "keyboard portair",
-#             1: "15000"
-#         }
-#     }
-#     print(type(attribute))
-#     return products.get(item)[attribute]
 
