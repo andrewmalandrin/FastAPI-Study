@@ -3,10 +3,20 @@ import csv
 def get_product_by_name(product_name):
     products = tsv_read_file()
     for product in products:
-        if product['name'] == product_name:
+        if product['name'].capitalize() == product_name.capitalize():
             print(product['name'])
             return product
-    return {"Error":"no product matches the name passed on the path"}
+    raise Exception("Error: no product matches the name passed in the path")
+
+def calculate_by_portion(product, portion):
+        
+    product['carbohidrates'] = round((product['carbohidrates'] /  product['portion']) * portion, 2)
+    product['proteins'] = round((product['proteins'] /  product['portion']) * portion, 2)
+    product['fat'] = round((product['fat'] /  product['portion']) * portion, 2)
+    product['saturated_fat'] = round((product['saturated_fat'] /  product['portion']) * portion, 2)
+    product['portion'] = portion
+
+    return product
 
 def tsv_read_file():
     path = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/products.txt'
@@ -24,11 +34,11 @@ def tsv_read_file():
                 #lines.append(f'\t Produto: {row[0]}\n\t Porcao: {row[1]}\n\t Carboidratos: {row[2]}\n\t Proteinas: {row[3]}\n\t Gorduras: {row[4]}\n\t Gorduras Saturadas: {row[5]}\n\n')
                 product = {
                     'name': row[0],
-                    'portion': row[1],
-                    'carbohidrates': row[2],
-                    'proteins': row[3],
-                    'fat': row[4],
-                    'saturated_fat': row[5]
+                    'portion': int(row[1]),
+                    'carbohidrates': float(row[2]),
+                    'proteins': float(row[3]),
+                    'fat': float(row[4]),
+                    'saturated_fat': float(row[5])
                 }
                 
                 products.append(product)
