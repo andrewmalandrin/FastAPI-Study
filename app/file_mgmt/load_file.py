@@ -1,4 +1,3 @@
-from ast import Return
 import csv
 
 def get_product_by_name(product_name):
@@ -8,7 +7,7 @@ def get_product_by_name(product_name):
         if product['name'].capitalize() == product_name.capitalize():
             print(product['name'])
             return product
-            
+
     raise Exception("Product won't exists in database")
 
 def calculate_by_portion(product, portion):
@@ -22,7 +21,7 @@ def calculate_by_portion(product, portion):
     return product
 
 def tsv_read_file():
-    path = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/products.txt'
+    path = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/teste.csv'
     print("lendo arquivo: ", path)
     with open(path, 'r', encoding='utf-8') as tsv_file:
         tsv_reader = csv.reader(tsv_file, delimiter='\t')
