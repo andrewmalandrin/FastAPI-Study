@@ -1,12 +1,15 @@
+from ast import Return
 import csv
 
 def get_product_by_name(product_name):
     products = tsv_read_file()
+    
     for product in products:
         if product['name'].capitalize() == product_name.capitalize():
             print(product['name'])
             return product
-    raise Exception("Error: no product matches the name passed in the path")
+            
+    raise Exception("Product won't exists in database")
 
 def calculate_by_portion(product, portion):
         
