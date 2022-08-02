@@ -6,6 +6,7 @@ from fastapi import FastAPI, Response
 from pydantic import Json
 from app.models.basemodel.requests import Product_Base
 from app.file_mgmt import load_file
+from app.file_mgmt import update_file
 
 app = FastAPI(
     title='FoodFacts',
@@ -53,8 +54,8 @@ def get_products() -> array:
 
 @app.post('/products/new-product')
 def create_new_product(request: Product_Base):
-    product = request
-    
-    return{'data':'Produto adicionado com sucesso'}
+    update_file.create_line(request)
+
+    return({'data':'Produto adicionado com sucesso'}, {'produto':request.name})
 
 
