@@ -1,4 +1,5 @@
 import csv
+from app.models.basemodel.responses import BasicResponseBase
 
 # def open_file():
 #     PATH = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/teste.txt'
@@ -8,11 +9,17 @@ import csv
 #     return writer_file
 
 def create_line(product):
-    
-    newline_array = [product.name, str(product.portion), str(product.carbohidrates), str(product.proteins), str(product.fat), str(product.saturated_fat)]
-    newline = '\t'.join(newline_array)
-    print(newline)
-    write_line(newline_array)
+    try:
+        newline_array = [product.name, str(product.portion), str(product.carbohidrates), str(product.proteins), str(product.fat), str(product.saturated_fat)]
+        newline = '\t'.join(newline_array)
+        print(newline)
+        write_line(newline_array)
+        response = BasicResponseBase(status_code=200, message='Produto adicionado com sucesso')
+    except Exception as exception:
+        response = BasicResponseBase(status_code=400, message='Houve um erro na adição do produto')
+
+    return response
+
 
 def write_line(line):
     PATH = 'D:/users/pichau/devprojects/training/python/fastapi-study/data/tsf/teste.csv'
