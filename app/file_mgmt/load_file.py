@@ -24,8 +24,7 @@ def calculate_by_portion(product, portion):
 
 def tsv_read_file():
     
-    PATH = 'app/loaders'
-    
+    PATH = PathsEnum.PRODUCTS_PATH
     print("lendo arquivo: ", PATH)
     try:
         with open(PATH, 'r', encoding='utf-8') as tsv_file:
