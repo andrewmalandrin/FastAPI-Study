@@ -39,7 +39,7 @@ def get_product(response: Response, product_name: str = "", portion: Optional[in
         try:
 
             return load_file.get_product_by_name(product_name)
-        except Exception as exception:
+        except Exception:
             response.status_code = HTTPStatus.NOT_FOUND
             response.content = "nenhum registro encontrado"
             print("Response: ", response.content)
