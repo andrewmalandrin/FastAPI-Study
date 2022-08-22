@@ -22,7 +22,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         content=jsonable_encoder({"detail":'Incorrect data type, verify data sent in body', "body": exc.body}),
     )
 
-@app.get('/')
+@app.get('/',
+        tags=['Welcome Page'])
 def index():
     return 'Welcome to the FoodFacts Brazil project by Andrew Malandrin'
 
@@ -31,7 +32,8 @@ def index():
         HTTPStatus.NOT_FOUND.value: {
             'description': 'Product not found'
             }
-        }
+        },
+        tags=['Products']
     )
 def get_product(response: Response, product_name: str = "", portion: Optional[int] = None):
     
@@ -58,7 +60,8 @@ def get_product(response: Response, product_name: str = "", portion: Optional[in
             print("Response: ", response.content)
             return response.content
 
-@app.get('/products')
+@app.get('/products',
+        tags=['Products'])
 def get_products() -> array:
     products = load_file.tsv_read_file()
     return products
@@ -70,7 +73,9 @@ def get_products() -> array:
         HTTPStatus.UNPROCESSABLE_ENTITY.value: {
             'description':'Incorrect data type'
         }
-        })
+        },
+        tags=['Products']
+        )
 def create_new_product(request: Product_Base, response: Response):
     try:
         response = update_file.create_line(request)
