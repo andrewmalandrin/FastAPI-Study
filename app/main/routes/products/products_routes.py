@@ -2,10 +2,10 @@ from http import HTTPStatus
 from typing import List, Optional
 from fastapi import Response
 
-from app.domain.usecases import GetProductParams, GetProductResponse, GetProductsResponse, CreateProductParams, CreateProductResponse
+from app.domain.usecases import GetProductParams, GetProductResponse, GetProductsResponse,\
+     CreateProductParams, CreateProductResponse
 from app.main.adapters import fastapi_adapter
 from app.main.factories import get_product_factory, get_products_factory, create_product_factory
-from app.file_mgmt import update_file
 from main import app
 
 TAG = ['Products']
