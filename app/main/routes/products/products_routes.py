@@ -80,6 +80,7 @@ def get_products(response: Response):
             'description':'Incorrect data type'
         }
     },
+    status_code=HTTPStatus.CREATED,
     tags=TAG
 )
 def create_new_product(params: CreateProductParams, response: Response):
