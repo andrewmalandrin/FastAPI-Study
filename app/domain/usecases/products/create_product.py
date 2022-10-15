@@ -29,5 +29,5 @@ class CreateProductParams(BaseModel):
 
 class CreateProductContract(Usecase):
     @abstractmethod
-    def execute(self, params):
+    def execute(self, params: CreateProductParams):
         raise NotImplementedError

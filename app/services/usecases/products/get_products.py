@@ -1,6 +1,5 @@
 from typing import List
 
-from app.infra.data.repositories.products import products_repository
 from app.services.contracts import ProductsRepositoryContract
 from app.domain.usecases import GetProductsContract, GetProductsResponse, Product
 from app.services.helpers.http import HttpResponse
@@ -40,7 +39,4 @@ class GetProducts(GetProductsContract):
         
         return HttpStatus.ok_200(
             response
-            # GetProductsResponse(
-            #     products=self.products_repository.get_products()
-            # )
         )
