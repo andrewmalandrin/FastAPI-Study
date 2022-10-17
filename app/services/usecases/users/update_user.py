@@ -32,4 +32,4 @@ class UpdateUser(UpdateUserContract):
                 age=user['age']
             )
         )
-        
+    

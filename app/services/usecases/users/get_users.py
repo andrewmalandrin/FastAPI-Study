@@ -46,4 +46,3 @@ class GetUsers(GetUsersContract):
         return HttpStatus.ok_200(
             users
         )
-        

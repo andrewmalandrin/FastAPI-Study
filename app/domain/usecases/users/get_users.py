@@ -26,4 +26,3 @@ class GetUsersContract(Usecase):
     @abstractmethod
     def execute(self):
         raise NotImplementedError()
-        
