@@ -5,6 +5,22 @@ class CSVFileManager:
     def __init__(self, file_path: str):
         self.file_path = file_path
 
+    def update_tsv_file_line(self, file: List, new_line: str, index: int) -> None:
+        file[index] = new_line
+        
+        print('File: ', file)
+        file_data = []
+        
+        for line in file:
+            file_data.append('\t'.join(line))
+
+        file_data = '\n'.join(file_data) + '\n'
+
+        print('File data: \n', file_data)
+
+        with open(self.file_path, 'w', encoding='utf-8') as opened_file:
+            opened_file.write(file_data)
+    
     def add_line_to_tsv_file(self, line: str) -> None:
         with open(self.file_path, 'a+', encoding='utf-8') as opened_file:
             opened_file.write(line)
