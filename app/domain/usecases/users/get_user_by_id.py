@@ -1,11 +1,13 @@
 from abc import abstractmethod
 from pydantic import BaseModel
-from typing import List
 from app.domain.usecases import Usecase
 from app.services.helpers.string import convert_snake_to_camel
 
 
-class User(BaseModel):
+class GetUserByIdParams(BaseModel):
+    id: int
+
+class GetUserByIdResponse(BaseModel):
     id: int
     name: str
     weight: float
@@ -18,12 +20,7 @@ class User(BaseModel):
         allow_population_by_field_name = True
 
 
-class GetUsersResponse(BaseModel):
-    users: List[User]
-
-
-class GetUsersContract(Usecase):
+class GetUserByIdContract(Usecase):
     @abstractmethod
-    def execute(self):
+    def execute(self, params: GetUserByIdParams):
         raise NotImplementedError()
-        

@@ -16,5 +16,15 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
     def get_users(self) -> List:
         return mount_users_data(self.file_manager_instance.read_tsv_file())
 
-    def get_user_by_filter(self, filters: List):
-        return 
+    def get_user_by_filters(self, id: int):
+        users = mount_users_data(self.file_manager_instance.read_tsv_file())
+
+        filters = [
+            [
+                'id',id
+            ]
+        ]
+
+        result = self._load_by_filters(filters, users)
+
+        return result[0]
