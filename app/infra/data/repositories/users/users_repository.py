@@ -62,10 +62,14 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
 
         user.append(str(params.id))
         user.append(user_data['name'])
-        user.append(str(params.weight))
-        user.append(str(params.carbo_kg))
-        user.append(str(params.fat_kg))
-        user.append(str(params.age))
+        
+        items = params.__dict__.items()
+
+        for item in items:
+            if items[item] is not None:
+                user.append(items[item])
+            else:
+                user.append(user_data[item])
 
         line = '\t'.join(user)
         line += '\n'
