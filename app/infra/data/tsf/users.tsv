@@ -1,4 +1,4 @@
 id	name	weight	carbo/kg	fat/kg	age
                         
-1	Andrew	76	6	1	30
-2	Pamella	65	5	1	29
+1	Pamella	65.0	5.0	1.0	29
+2	Andrew	76.0	6.0	1.0	30
