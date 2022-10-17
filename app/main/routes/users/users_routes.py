@@ -1,8 +1,8 @@
 from http import HTTPStatus
 from fastapi import Response
 
-from app.domain.usecases.users import GetUsersResponse, GetUserByIdResponse, GetUserByIdParams
-from app.main.factories import get_user_by_id_factory, get_users_factory
+from app.domain.usecases.users import GetUsersResponse, GetUserByIdResponse, GetUserByIdParams, CreateUserParams, CreateUserResponse
+from app.main.factories import get_user_by_id_factory, get_users_factory, create_user_factory
 from app.main.adapters import fastapi_adapter
 
 from main import app
@@ -61,4 +61,27 @@ def get_users(response: Response):
         return result.body
     return response
 
+@app.post(
+    '/users/create',
+    responses={
+        HTTPStatus.CREATED.value: {
+            'description' : 'Create user endpoint',
+            'model' : CreateUserResponse
+        }
+    },
+    tags=TAG
+)
+def create_user(params: CreateUserParams, response: Response):
+    request = {
+        'body': params,
+        'headers': None,
+        'query' : None
+    }
 
+    result = fastapi_adapter(request, create_user_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+    return response
