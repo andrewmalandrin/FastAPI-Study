@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class UsersData:
@@ -9,6 +10,14 @@ class UsersData:
     carbo_kg: float
     fat_kg: float
     age: int
+
+@dataclass
+class UpdateUserParams:
+    id: int
+    weight: Optional[float] = None
+    carbo_kg: Optional[float] = None
+    fat_kg: Optional[float] = None
+    age: Optional[int] = None
 
 @dataclass
 class SaveUserParams:
@@ -30,4 +39,8 @@ class UsersRepositoryContract(ABC):
 
     @abstractmethod
     def get_user_by_filters(self, id: int):
+        raise NotImplementedError()
+    
+    @abstractmethod
+    def update_user(self, params: UpdateUserParams):
         raise NotImplementedError()
