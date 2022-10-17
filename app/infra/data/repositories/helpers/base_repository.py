@@ -6,7 +6,7 @@ class BaseRepository:
 
     def _load_by_filters(self, filters: List, data: List) -> List:
         print("Data: ", data)
-        
+        print("Fitlers: ", filters)
         result = []
         for item in data:
             for filter_data in filters:
