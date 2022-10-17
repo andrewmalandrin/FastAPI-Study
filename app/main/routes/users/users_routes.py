@@ -1,8 +1,8 @@
 from http import HTTPStatus
 from fastapi import Response
 
-from app.domain.usecases.users import GetUsersResponse, GetUserByIdResponse, GetUserByIdParams, CreateUserParams, CreateUserResponse
-from app.main.factories import get_user_by_id_factory, get_users_factory, create_user_factory
+from app.domain.usecases.users import GetUsersResponse, GetUserByIdResponse, GetUserByIdParams, CreateUserParams, CreateUserResponse, UpdateUserParams, UpdateUserResponse
+from app.main.factories import get_user_by_id_factory, get_users_factory, create_user_factory, update_user_factory
 from app.main.adapters import fastapi_adapter
 
 from main import app
@@ -79,6 +79,31 @@ def create_user(params: CreateUserParams, response: Response):
     }
 
     result = fastapi_adapter(request, create_user_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+    return response
+
+@app.put(
+    '/users/update/',
+    responses={
+        HTTPStatus.ACCEPTED.value: {
+            'description' : 'Change accepted',
+            'model' : UpdateUserResponse
+        }
+    },
+    tags=TAG
+)
+def update_user(params: UpdateUserParams, response: Response):
+    request = {
+        'body': params,
+        'headers': None,
+        'query' : None
+    }
+
+    result = fastapi_adapter(request, update_user_factory())
 
     response.status_code = result.status_code
 
