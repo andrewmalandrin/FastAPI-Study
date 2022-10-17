@@ -13,7 +13,7 @@ def mount_users_data(file: List) -> UsersData:
                     'weight': float(row[2]),
                     'carbo_kg': float(row[3]),
                     'fat_kg': float(row[4]),
-                    'age': float(row[5])
+                    'age': int(row[5])
                 }
                 users.append(user)
 

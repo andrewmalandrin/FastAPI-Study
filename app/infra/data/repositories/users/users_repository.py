@@ -1,6 +1,9 @@
 from typing import List
+from unicodedata import name
+from app.domain.usecases.users.update_user import UpdateUserParams
 from app.services.contracts import SaveUserParams, UpdateFileUserParams, UsersRepositoryContract
 from app.infra.data.repositories.helpers import BaseRepository
+from app.services.contracts import UsersData
 from app.services.helpers.users import mount_users_data
 
 
@@ -52,39 +55,51 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
     
     def update_user(self, params: UpdateFileUserParams):
         user_data = self.get_user_by_filters(
-            id=params.id
+            id=int(params.id)
         )
         print('User data: ', user_data)
 
         file = self.file_manager_instance.read_tsv_file()
+        print('File: ', file)
 
         user = []
 
         user.append(str(params.id))
         user.append(user_data['name'])
         
-        items = params.__dict__.items()
+        items = params.__dict__
 
+        if items['id']:
+            del items['id']
         for item in items:
+            
             if items[item] is not None:
-                user.append(items[item])
+                print('Item: ', item)
+                user.append(str(items[item]))
             else:
-                user.append(user_data[item])
+                user.append(str(user_data[item]))
 
         line = '\t'.join(user)
-        line += '\n'
 
         print('New line: ', line)
         index = None
         
-        for idx, line in file:
-            if line[0] == params.id:
+        for idx, line in enumerate(file):
+            if line[0] == user[0]:
                 index = idx
 
-        # self.file_manager_instance.update_tsv_file_line(
-        #     file=file,
-        #     new_line=user,
-        #     index=index
-        # )
+        self.file_manager_instance.update_tsv_file_line(
+            file=file,
+            new_line=user,
+            index=index
+        )
 
-        return user
+        print('User: ', user)
+        return {
+            'id': int(user[0]),
+            'name': user[1],
+            'weight': float(user[2]),
+            'carbo_kg': float(user[3]),
+            'fat_kg': float(user[4]),
+            'age': int(user[5])
+        }
