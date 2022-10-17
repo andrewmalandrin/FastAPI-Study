@@ -11,7 +11,7 @@ class UsersData:
     age: int
 
 @dataclass
-class CreateUserParams:
+class SaveUserParams:
     id: int
     name: str
     weight: float
@@ -21,7 +21,7 @@ class CreateUserParams:
 
 class UsersRepositoryContract(ABC):
     @abstractmethod
-    def create_user(self, params: CreateUserParams):
+    def create_user(self, params: SaveUserParams):
         raise NotImplementedError()
 
     @abstractmethod
