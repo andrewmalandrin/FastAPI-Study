@@ -12,7 +12,7 @@ class UsersData:
     age: int
 
 @dataclass
-class UpdateUserParams:
+class UpdateFileUserParams:
     id: int
     weight: Optional[float] = None
     carbo_kg: Optional[float] = None
@@ -42,5 +42,5 @@ class UsersRepositoryContract(ABC):
         raise NotImplementedError()
     
     @abstractmethod
-    def update_user(self, params: UpdateUserParams):
+    def update_user(self, params: UpdateFileUserParams):
         raise NotImplementedError()

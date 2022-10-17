@@ -1,5 +1,5 @@
 from typing import List
-from app.services.contracts import SaveUserParams, UpdateUserParams, UsersRepositoryContract
+from app.services.contracts import SaveUserParams, UpdateFileUserParams, UsersRepositoryContract
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.helpers.users import mount_users_data
 
@@ -50,7 +50,7 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
 
         return result[0]
     
-    def update_user(self, params: UpdateUserParams):
+    def update_user(self, params: UpdateFileUserParams):
         user_data = self.get_user_by_filters(
             id=params.id
         )
@@ -81,10 +81,10 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
             if line[0] == params.id:
                 index = idx
 
-        self.file_manager_instance.update_tsv_file_line(
-            file=file,
-            new_line=user,
-            index=index
-        )
+        # self.file_manager_instance.update_tsv_file_line(
+        #     file=file,
+        #     new_line=user,
+        #     index=index
+        # )
 
         return user
