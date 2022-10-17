@@ -29,5 +29,5 @@ class UsersRepositoryContract(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_user_by_filter(self, filters: list):
+    def get_user_by_filters(self, id: int):
         raise NotImplementedError()
