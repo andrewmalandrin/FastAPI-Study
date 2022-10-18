@@ -15,11 +15,12 @@ class CreateProductParams:
 
 @dataclass
 class GetProductParams:
-    name: str
+    id: str
     portion: Optional[int] = None
 
 @dataclass
 class ProductsData:
+    id: int
     name: str
     portion: int
     portion_unity: str
@@ -38,6 +39,6 @@ class ProductsRepositoryContract(ABC):
         raise NotImplementedError()
         
     @abstractmethod
-    def get_product_by_filters(self, name: str) -> List:
+    def get_product_by_filters(self, id: str) -> List:
         raise NotImplementedError()
 

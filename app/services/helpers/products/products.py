@@ -6,16 +6,17 @@ def mount_products_data(file: List) -> ProductsData:
 
     for row in file:
         if len(row) > 0:
-            if row[1].isnumeric():
+            if row[0].isnumeric():
                 product = {
-                    'name': row[0],
-                    'portion': int(row[1]),
-                    'portion_unity':row[2],
-                    'carbohidrates': float(row[3]),
-                    'proteins': float(row[4]),
-                    'fat': float(row[5]),
-                    'saturated_fat': float(row[6])
+                    'id': int(row[0]),
+                    'name': row[1],
+                    'portion': int(row[2]),
+                    'portion_unity':row[3],
+                    'carbohidrates': float(row[4]),
+                    'proteins': float(row[5]),
+                    'fat': float(row[6]),
+                    'saturated_fat': float(row[7])
                 }
                 products.append(product)
-
+    print("Products data: ", products)
     return products
