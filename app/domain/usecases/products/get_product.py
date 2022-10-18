@@ -5,6 +5,7 @@ from typing import Optional
 
 
 class GetProductResponse(BaseModel):
+    id: int
     name: str
     portion: int
     portion_unity: str = Field(alias='portionUnity')
@@ -18,7 +19,7 @@ class GetProductResponse(BaseModel):
 
 
 class GetProductParams(BaseModel):
-    name: str
+    id: int
     portion: Optional[int] = None
 
 class GetProductContract(Usecase):

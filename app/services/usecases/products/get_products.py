@@ -19,6 +19,7 @@ class GetProducts(GetProductsContract):
         for product in products:
             products_list.append(
                 Product(
+                    id=product['id'],
                     name=product['name'],
                     portion=product['portion'],
                     portion_unity=product['portion_unity'],

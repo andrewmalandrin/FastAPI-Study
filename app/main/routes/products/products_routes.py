@@ -10,7 +10,7 @@ from main import app
 
 TAG = ['Products']
 
-@app.get('/products/{product_name}',
+@app.get('/products/{product_id}',
     responses={
         HTTPStatus.OK.value: {
             'description':'Product found',
@@ -22,10 +22,10 @@ TAG = ['Products']
     },
     tags=TAG
 )
-def get_product(response: Response, product_name: str = "", portion: Optional[int] = None):
+def get_product(response: Response, product_id: str = "", portion: Optional[int] = None):
 
     request = {
-        'body': GetProductParams(name=product_name,
+        'body': GetProductParams(id=product_id,
         portion=portion),
         'headers': None,
         'query': None

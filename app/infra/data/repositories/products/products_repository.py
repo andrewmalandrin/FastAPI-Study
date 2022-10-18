@@ -15,6 +15,9 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
 
         product = []
 
+        id = int(self.get_products()[-1]['id']) + 1
+
+        product.append(str(id))
         product.append(params.name)
         product.append(str(params.portion))
         product.append(params.portion_unity)
@@ -29,6 +32,7 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
         self.file_manager_instance.add_line_to_tsv_file(line=line)
 
         return ProductsData(
+            id=id,
             name=params.name,
             portion=params.portion,
             portion_unity=params.portion_unity,
@@ -42,12 +46,12 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
         products = mount_products_data(self.file_manager_instance.read_tsv_file())
         return products
 
-    def get_product_by_filters(self, name: str) -> List:
+    def get_product_by_filters(self, id: int) -> List:
         products = mount_products_data(self.file_manager_instance.read_tsv_file())
 
         filters = [
             [
-                'name', name
+                'id', id
             ]
         ]
         try:

@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 from app.domain.usecases import Usecase
 
 class CreateProductResponse(BaseModel):
+    id: int
     name: str
     portion: int
     portion_unity: str = Field(alias='portionUnity')

@@ -17,6 +17,7 @@ class GetProduct(GetProductContract):
         
         calculated_product = {}
 
+        calculated_product['id'] = product['id']
         calculated_product['name'] = product['name']
         calculated_product['portion'] = portion
         calculated_product['portion_unity'] = product['portion_unity']
@@ -29,7 +30,7 @@ class GetProduct(GetProductContract):
     
     def execute(self, params: GetProductParams) -> HttpResponse[GetProductResponse]:
         try:
-            product = self.products_repository.get_product_by_filters(name=params.name)
+            product = self.products_repository.get_product_by_filters(id=params.id)
         except ProductNotFound:
             return HttpStatus.not_found_404('Product not found')
 
@@ -39,6 +40,7 @@ class GetProduct(GetProductContract):
         
         return HttpStatus.ok_200(
             GetProductResponse(
+                id=product['id'],
                 name=product['name'],
                 portion=product['portion'],
                 portion_unity=product['portion_unity'],

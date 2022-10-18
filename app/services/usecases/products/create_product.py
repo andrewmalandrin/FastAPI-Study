@@ -16,6 +16,7 @@ class CreateProduct(CreateProductContract):
         
         return HttpStatus.created_201(
             CreateProductResponse(
+                id=product.id,
                 name=product.name,
                 portion=product.portion,
                 portion_unity=product.portion_unity,
