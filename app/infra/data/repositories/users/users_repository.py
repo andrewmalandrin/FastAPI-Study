@@ -4,6 +4,7 @@ from app.domain.usecases.users.update_user import UpdateUserParams
 from app.services.contracts import SaveUserParams, UpdateFileUserParams, UsersRepositoryContract
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.contracts import UsersData
+from app.services.errors import UserNotFound
 from app.services.helpers.users import mount_users_data
 
 
@@ -41,23 +42,29 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
         return mount_users_data(self.file_manager_instance.read_tsv_file())
 
     def get_user_by_filters(self, id: int):
-        users = mount_users_data(self.file_manager_instance.read_tsv_file())
+        try:
+            users = mount_users_data(self.file_manager_instance.read_tsv_file())
 
-        filters = [
-            [
-                'id',id
+            filters = [
+                [
+                    'id',id
+                ]
             ]
-        ]
 
-        result = self._load_by_filters(filters, users)
+            result = self._load_by_filters(filters, users)
 
-        return result[0]
+            return result[0]
+        except Exception as error:
+            raise UserNotFound() from error
     
     def update_user(self, params: UpdateFileUserParams):
-        user_data = self.get_user_by_filters(
-            id=int(params.id)
-        )
-        print('User data: ', user_data)
+        try:
+            user_data = self.get_user_by_filters(
+                id=int(params.id)
+            )
+            print('User data: ', user_data)
+        except UserNotFound:
+            raise UserNotFound()
 
         file = self.file_manager_instance.read_tsv_file()
         print('File: ', file)

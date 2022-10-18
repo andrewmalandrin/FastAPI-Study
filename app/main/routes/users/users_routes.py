@@ -16,6 +16,9 @@ TAG = ['Users']
         HTTPStatus.OK.value: {
             'description' : 'Get user by ID',
             'model' : GetUserByIdResponse
+        },
+        HTTPStatus.NOT_FOUND.value:{
+            'description' : 'User not found'
         }
     },
     tags=TAG
@@ -87,13 +90,17 @@ def create_user(params: CreateUserParams, response: Response):
     return response
 
 @app.put(
-    '/users/update/',
+    '/users/update',
     responses={
         HTTPStatus.ACCEPTED.value: {
             'description' : 'Change accepted',
             'model' : UpdateUserResponse
+        },
+        HTTPStatus.NOT_FOUND.value: {
+            'description' : 'User not found'
         }
     },
+    status_code=HTTPStatus.ACCEPTED,
     tags=TAG
 )
 def update_user(params: UpdateUserParams, response: Response):
