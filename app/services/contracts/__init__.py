@@ -1,2 +1,2 @@
-from .products_repository_contract import GetProductParams, ProductsData, ProductsRepositoryContract, CreateProductParams, UpdateProductParams
+from .products_repository_contract import GetProductParams, ProductsData, ProductsRepositoryContract, CreateProductParams, UpdateProductFileParams
 from .users_repository_contract import UsersRepositoryContract, SaveUserParams, UpdateFileUserParams, UsersData

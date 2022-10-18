@@ -3,7 +3,6 @@ from pydantic import BaseModel
 from typing import Optional
 
 from app.domain.usecases import Usecase
-from app.services.contracts.products_repository_contract import UpdateProductParams
 from app.services.helpers.http import HttpResponse
 from app.services.helpers.string import convert_snake_to_camel
 

@@ -1,5 +1,5 @@
 from app.domain.usecases import UpdateProductContract, UpdateProductParams, UpdateProductResponse
-from app.services.contracts import ProductsRepositoryContract
+from app.services.contracts import ProductsRepositoryContract, UpdateProductFileParams
 from app.services.helpers.http import HttpResponse
 from app.services.helpers.http.http import HttpStatus
 from app.services.errors import ProductNotFound
@@ -16,13 +16,13 @@ class UpdateProduct(UpdateProductContract):
     def execute(self, params: UpdateProductParams) -> HttpResponse[UpdateProductResponse]:
         try:
             product = self.products_repository.update_product(
-                UpdateProductParams(
+                UpdateProductFileParams(
                     id=params.id,
                     name=params.name,
                     portion=params.portion,
                     portion_unity=params.portion_unity,
-                    carbo=params.carbo,
-                    prot=params.prot,
+                    carbohidrates=params.carbo,
+                    proteins=params.prot,
                     fat=params.fat,
                     saturated_fat=params.saturated_fat
                 )
