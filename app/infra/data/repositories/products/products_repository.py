@@ -1,6 +1,6 @@
 from typing import List
 
-from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams
+from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams, UpdateProductParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.errors import ProductNotFound
 from app.services.helpers.products import mount_products_data
@@ -60,3 +60,48 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
             return result[0]
         except Exception as error:
             raise ProductNotFound()
+        
+    def update_product(self, params: UpdateProductParams):
+        try:
+            product_data = self.get_product_by_filters(id=id)
+        except ProductNotFound:
+            raise ProductNotFound()
+
+        file = self.file_manager_instance.read_tsv_file()
+        print('File: ', file)
+
+        product = []
+
+        product.append(str(params.id))
+        
+        items = params.__dict__
+
+        for item in items:
+            if items[item] is not None:
+                print('Product Item: ', item)
+                product.append(str(items[item]))
+            else:
+                product.append(str(product_data[item]))
+
+        line = '\t'.join(product)
+        index = None
+
+        for idx, line in enumerate(file):
+            self.file_manager_instance.update_tsv_file_line(
+                file=file,
+                new_line=line,
+                index=index
+        )
+        
+        print('Product: ', product)
+
+        return {
+            'id': int(product[0]),
+            'name': product[1],
+            'portion': int(product[2]),
+            'portion_unity': product[3],
+            'carbo': float(product[4]),
+            'prot': float(product[5]),
+            'fat': float(product[6]),
+            'saturated_fat': float(product[7])
+        }
