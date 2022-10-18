@@ -1,5 +1,6 @@
 from app.services.contracts import UsersRepositoryContract, UpdateFileUserParams
 from app.domain.usecases.users import UpdateUserContract, UpdateUserParams, UpdateUserResponse
+from app.services.errors import UserNotFound
 from app.services.helpers.http import HttpResponse
 from app.services.helpers.http.http import HttpStatus
 
@@ -12,15 +13,18 @@ class UpdateUser(UpdateUserContract):
     
     def execute(self, params: UpdateUserParams) -> HttpResponse[UpdateUserResponse]:
         
-        user = self.users_repository.update_user(
-            UpdateFileUserParams(
-                id=params.id,
-                weight=params.weight,
-                carbo_kg=params.carbo_kg,
-                fat_kg=params.fat_kg,
-                age=params.age
+        try:
+            user = self.users_repository.update_user(
+                UpdateFileUserParams(
+                    id=params.id,
+                    weight=params.weight,
+                    carbo_kg=params.carbo_kg,
+                    fat_kg=params.fat_kg,
+                    age=params.age
+                )
             )
-        )
+        except UserNotFound:
+            return HttpStatus.not_found_404('User not found')
 
         return HttpStatus.accepted_202(
             UpdateUserResponse(
