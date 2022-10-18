@@ -90,7 +90,7 @@ def create_user(params: CreateUserParams, response: Response):
     return response
 
 @app.put(
-    '/users/update/',
+    '/users/update',
     responses={
         HTTPStatus.ACCEPTED.value: {
             'description' : 'Change accepted',
