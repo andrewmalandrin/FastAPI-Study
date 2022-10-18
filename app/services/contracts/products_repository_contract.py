@@ -4,13 +4,13 @@ from typing import List, Optional
 
 
 @dataclass
-class UpdateProductParams:
+class UpdateProductFileParams:
     id: int
     name: Optional[str] = None
     portion: Optional[int] = None
     portion_unity: Optional[str] = None
-    carbo: Optional[float] = None
-    prot: Optional[float] = None
+    carbohidrates: Optional[float] = None
+    proteins: Optional[float] = None
     fat: Optional[float] = None
     saturated_fat: Optional[float] = None
 
@@ -54,5 +54,5 @@ class ProductsRepositoryContract(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def update_product(self, params: UpdateProductParams) -> List:
+    def update_product(self, params: UpdateProductFileParams) -> List:
         raise NotImplementedError()

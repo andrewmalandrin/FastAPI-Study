@@ -1,6 +1,6 @@
 from typing import List
 
-from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams, UpdateProductParams
+from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams, UpdateProductFileParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.errors import ProductNotFound
 from app.services.helpers.products import mount_products_data
@@ -61,9 +61,9 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
         except Exception as error:
             raise ProductNotFound()
         
-    def update_product(self, params: UpdateProductParams):
+    def update_product(self, params: UpdateProductFileParams):
         try:
-            product_data = self.get_product_by_filters(id=id)
+            product_data = self.get_product_by_filters(id=params.id)
         except ProductNotFound:
             raise ProductNotFound()
 
@@ -76,21 +76,26 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
         
         items = params.__dict__
 
+        if items['id']:
+            del items['id']
+
         for item in items:
             if items[item] is not None:
-                print('Product Item: ', item)
+                print('Product item changed: ', item)
                 product.append(str(items[item]))
             else:
                 product.append(str(product_data[item]))
 
-        line = '\t'.join(product)
         index = None
 
         for idx, line in enumerate(file):
-            self.file_manager_instance.update_tsv_file_line(
-                file=file,
-                new_line=line,
-                index=index
+            if line[0] == product[0]:
+                index=idx
+
+        self.file_manager_instance.update_tsv_file_line(
+            file=file,
+            new_line=product,
+            index=index
         )
         
         print('Product: ', product)
