@@ -2,6 +2,7 @@ from typing import List
 
 from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams
 from app.infra.data.repositories.helpers import BaseRepository
+from app.services.errors import ProductNotFound
 from app.services.helpers.products import mount_products_data
 
 class ProductsRepository(BaseRepository, ProductsRepositoryContract):
@@ -42,7 +43,6 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
         return products
 
     def get_product_by_filters(self, name: str) -> List:
-        # TODO: testar
         products = mount_products_data(self.file_manager_instance.read_tsv_file())
 
         filters = [
@@ -50,8 +50,9 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
                 'name', name
             ]
         ]
-
-        result = self._load_by_filters(filters=filters, data=products)
-        print('Returned data:', result)
-        return result[0]
-        
+        try:
+            result = self._load_by_filters(filters=filters, data=products)
+            print('Returned data:', result)
+            return result[0]
+        except Exception as error:
+            raise ProductNotFound()

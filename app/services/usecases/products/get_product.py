@@ -2,6 +2,7 @@ from app.domain.usecases import GetProductContract, GetProductParams, GetProduct
 from app.services.contracts import ProductsRepositoryContract
 from app.services.helpers.http import HttpResponse
 from app.services.helpers.http.http import HttpStatus
+from app.services.errors import ProductNotFound
 from typing import List
 
 
@@ -27,8 +28,10 @@ class GetProduct(GetProductContract):
         return calculated_product
     
     def execute(self, params: GetProductParams) -> HttpResponse[GetProductResponse]:
-        
-        product = self.products_repository.get_product_by_filters(name=params.name)
+        try:
+            product = self.products_repository.get_product_by_filters(name=params.name)
+        except ProductNotFound:
+            return HttpStatus.not_found_404('Product not found')
 
         if params.portion:
             product = self._calculate_portion(params.portion, product)
