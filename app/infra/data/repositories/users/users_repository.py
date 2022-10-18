@@ -86,9 +86,6 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
             else:
                 user.append(str(user_data[item]))
 
-        line = '\t'.join(user)
-
-        print('New line: ', line)
         index = None
         
         for idx, line in enumerate(file):
