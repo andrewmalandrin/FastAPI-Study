@@ -4,6 +4,17 @@ from typing import List, Optional
 
 
 @dataclass
+class UpdateProductFileParams:
+    id: int
+    name: Optional[str] = None
+    portion: Optional[int] = None
+    portion_unity: Optional[str] = None
+    carbohidrates: Optional[float] = None
+    proteins: Optional[float] = None
+    fat: Optional[float] = None
+    saturated_fat: Optional[float] = None
+
+@dataclass
 class CreateProductParams:
     name: str
     portion: int
@@ -42,3 +53,6 @@ class ProductsRepositoryContract(ABC):
     def get_product_by_filters(self, id: str) -> List:
         raise NotImplementedError()
 
+    @abstractmethod
+    def update_product(self, params: UpdateProductFileParams) -> List:
+        raise NotImplementedError()
