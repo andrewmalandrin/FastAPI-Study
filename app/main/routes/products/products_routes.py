@@ -3,9 +3,9 @@ from typing import List, Optional
 from fastapi import Response
 
 from app.domain.usecases import GetProductParams, GetProductResponse, GetProductsResponse,\
-     CreateProductParams, CreateProductResponse
+     CreateProductParams, CreateProductResponse, UpdateProductParams, UpdateProductResponse
 from app.main.adapters import fastapi_adapter
-from app.main.factories import get_product_factory, get_products_factory, create_product_factory
+from app.main.factories import get_product_factory, get_products_factory, create_product_factory, update_product_factory
 from main import app
 
 TAG = ['Products']
@@ -90,6 +90,32 @@ def create_new_product(params: CreateProductParams, response: Response):
         'query': None
     }
     result = fastapi_adapter(request, create_product_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+
+    return response
+
+@app.put(
+    '/products/update',
+    responses={
+        HTTPStatus.ACCEPTED.value: {
+            'description': 'Product updated',
+            'model': UpdateProductResponse
+        }
+    },
+    status_code=HTTPStatus.ACCEPTED,
+    tags=TAG
+)
+def update_product(params: UpdateProductParams, response: Response):
+    request={
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+    result = fastapi_adapter(request, update_product_factory())
 
     response.status_code = result.status_code
 
