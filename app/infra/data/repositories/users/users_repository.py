@@ -123,7 +123,7 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
         index = None
         
         for idx, line in enumerate(file):
-            if line[0] == id:
+            if line[0] == str(id):
                 index = idx
 
         self.file_manager_instance.delete_tsv_file_line(
