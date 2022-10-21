@@ -120,7 +120,7 @@ def update_user(params: UpdateUserParams, response: Response):
     return response
 
 @app.delete(
-    '/users/delete_user/{user_id}',
+    '/users/delete-user/{user_id}',
     responses={
         HTTPStatus.OK.value: {
             'description': 'User delete',
@@ -138,7 +138,7 @@ def delete_user(user_id: int, response: Response):
     params = DeleteUserParams(
         id=user_id
     )
-    
+
     request = {
         'body': params,
         'headers': None,
