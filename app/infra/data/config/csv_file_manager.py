@@ -7,11 +7,9 @@ class CSVFileManager:
 
     def delete_tsv_file_line(self, file: List, index: int):
         with open(self.file_path, 'w', encoding='utf-8') as opened_file:
-            print('Index: ', index)
             for line_number, line in enumerate(file):
                 if line_number != index:
                     line = '\t'.join(line)
-                    print('Line: ', line)
                     opened_file.write(line + '\n')
     
     def update_tsv_file_line(self, file: List, new_line: str, index: int) -> None:
