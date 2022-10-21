@@ -1,8 +1,9 @@
 from http import HTTPStatus
 from fastapi import Response
 
-from app.domain.usecases.users import GetUsersResponse, GetUserByIdResponse, GetUserByIdParams, CreateUserParams, CreateUserResponse, UpdateUserParams, UpdateUserResponse
-from app.main.factories import get_user_by_id_factory, get_users_factory, create_user_factory, update_user_factory
+from app.domain.usecases.users import GetUsersResponse, GetUserByIdResponse, GetUserByIdParams, CreateUserParams, \
+    CreateUserResponse, UpdateUserParams, UpdateUserResponse, DeleteUserParams, DeleteUserResponse
+from app.main.factories import get_user_by_id_factory, get_users_factory, create_user_factory, update_user_factory, delete_user_factory
 from app.main.adapters import fastapi_adapter
 
 from main import app
@@ -111,6 +112,40 @@ def update_user(params: UpdateUserParams, response: Response):
     }
 
     result = fastapi_adapter(request, update_user_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+    return response
+
+@app.delete(
+    '/users/delete_user/{user_id}',
+    responses={
+        HTTPStatus.OK.value: {
+            'description': 'User delete',
+            'model': DeleteUserResponse
+        },
+        HTTPStatus.NOT_FOUND.value: {
+            'description': 'User not found'
+        }
+    },
+    status_code=HTTPStatus.OK,
+    tags=TAG
+    )
+def delete_user(user_id: int, response: Response):
+
+    params = DeleteUserParams(
+        id=user_id
+    )
+    
+    request = {
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+
+    result = fastapi_adapter(request, delete_user_factory())
 
     response.status_code = result.status_code
 
