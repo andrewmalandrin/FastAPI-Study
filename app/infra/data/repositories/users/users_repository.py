@@ -107,3 +107,31 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
             'fat_kg': float(user[4]),
             'age': int(user[5])
         }
+
+    def delete_user(self, id: int):
+        try:
+            user_data = self.get_user_by_filters(
+                id=int(id)
+            )
+            print('User data: ', user_data)
+        except UserNotFound:
+            raise UserNotFound()
+
+        file = self.file_manager_instance.read_tsv_file()
+        print('File: ', file)
+
+        index = None
+        
+        for idx, line in enumerate(file):
+            if line[0] == id:
+                index = idx
+
+        self.file_manager_instance.delete_tsv_file_line(
+            file=file,
+            index=index
+        )
+
+        return {
+            'id': id,
+            'name': user_data.get('name', None)
+        }

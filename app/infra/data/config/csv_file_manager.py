@@ -5,6 +5,12 @@ class CSVFileManager:
     def __init__(self, file_path: str):
         self.file_path = file_path
 
+    def delete_tsv_file_line(self, file: List, index: int):
+        with open(self.file_path, 'w', encoding='utf-8') as opened_file:
+            for line_number, line in enumerate(file):
+                if line_number != index:
+                    opened_file.write(line)
+    
     def update_tsv_file_line(self, file: List, new_line: str, index: int) -> None:
         file[index] = new_line
         

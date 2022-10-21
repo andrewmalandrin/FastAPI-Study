@@ -44,3 +44,7 @@ class UsersRepositoryContract(ABC):
     @abstractmethod
     def update_user(self, params: UpdateFileUserParams):
         raise NotImplementedError()
+
+    @abstractmethod
+    def delete_user(self, id: int):
+        raise NotImplementedError()
