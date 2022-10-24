@@ -1,6 +1,6 @@
 from typing import List
 
-from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams, UpdateProductFileParams
+from app.services.contracts import ProductsRepositoryContract, ProductsData, CreateProductParams, UpdateProductFileParams, DeleteProductFileParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.errors import ProductNotFound
 from app.services.helpers.products import mount_products_data
@@ -109,4 +109,31 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
             'prot': float(product[5]),
             'fat': float(product[6]),
             'saturated_fat': float(product[7])
+        }
+
+    def delete_product(self, params: DeleteProductFileParams):
+        try:
+            product = self.get_product_by_filters(
+                id=int(params.id)
+            )
+        except Exception as e:
+            raise ProductNotFound()
+        
+        file = self.file_manager_instance.read_tsv_file()
+        print('File: ', file)
+
+        index = None
+
+        for idx, line in file:
+            if line[0] == str(params.id):
+                index = idx
+
+        self.file_manager_instance.delete_tsv_file_line(
+            file=file,
+            index=index
+        )
+
+        return {
+            'id': product.id,
+            'name': product.get('name', None)
         }
