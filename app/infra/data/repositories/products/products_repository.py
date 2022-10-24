@@ -124,7 +124,7 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
 
         index = None
 
-        for idx, line in file:
+        for idx, line in enumerate(file):
             if line[0] == str(params.id):
                 index = idx
 
@@ -134,6 +134,6 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
         )
 
         return {
-            'id': product.id,
+            'id': product.get('id', None),
             'name': product.get('name', None)
         }
