@@ -4,6 +4,10 @@ from typing import List, Optional
 
 
 @dataclass
+class DeleteProductFileParams:
+    id: int
+
+@dataclass
 class UpdateProductFileParams:
     id: int
     name: Optional[str] = None
@@ -55,4 +59,8 @@ class ProductsRepositoryContract(ABC):
 
     @abstractmethod
     def update_product(self, params: UpdateProductFileParams) -> List:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def delete_product(self, params: DeleteProductFileParams) -> List:
         raise NotImplementedError()
