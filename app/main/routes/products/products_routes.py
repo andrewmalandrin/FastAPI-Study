@@ -3,9 +3,11 @@ from typing import List, Optional
 from fastapi import Response
 
 from app.domain.usecases import GetProductParams, GetProductResponse, GetProductsResponse,\
-     CreateProductParams, CreateProductResponse, UpdateProductParams, UpdateProductResponse
+     CreateProductParams, CreateProductResponse, UpdateProductParams, UpdateProductResponse,\
+        DeleteProductResponse, DeleteProductParams
 from app.main.adapters import fastapi_adapter
-from app.main.factories import get_product_factory, get_products_factory, create_product_factory, update_product_factory
+from app.main.factories import get_product_factory, get_products_factory, create_product_factory, update_product_factory,\
+    delete_product_factory
 from main import app
 
 TAG = ['Products']
@@ -116,6 +118,39 @@ def update_product(params: UpdateProductParams, response: Response):
         'query': None
     }
     result = fastapi_adapter(request, update_product_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+
+    return response
+
+@app.delete(
+    '/product/delete/{product_id}',
+    responses={
+        HTTPStatus.ACCEPTED.value: {
+            'description': 'Product deleted',
+            'model': DeleteProductResponse
+        },
+        HTTPStatus.NOT_FOUND.value: {
+            'description': 'Product not found'
+        }
+    },
+    status_code=HTTPStatus.ACCEPTED,
+    tags=TAG
+    )
+def delete_product(product_id: int, response: Response):
+    params = DeleteProductParams(
+        id=product_id
+    )
+    
+    request={
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+    result = fastapi_adapter(request, delete_product_factory())
 
     response.status_code = result.status_code
 

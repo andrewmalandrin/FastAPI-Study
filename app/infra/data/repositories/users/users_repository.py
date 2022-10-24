@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from unicodedata import name
 from app.domain.usecases.users.update_user import UpdateUserParams
 from app.services.contracts import SaveUserParams, UpdateFileUserParams, UsersRepositoryContract
@@ -108,7 +108,7 @@ class UsersRepository(BaseRepository, UsersRepositoryContract):
             'age': int(user[5])
         }
 
-    def delete_user(self, id: int):
+    def delete_user(self, id: int) -> Dict:
         try:
             user_data = self.get_user_by_filters(
                 id=int(id)
