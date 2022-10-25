@@ -37,7 +37,7 @@ class DietsRepository(DietsRepositoryContract, BaseRepository):
         try:
             id = int(self.get_diets()[-1]['id']) + 1
         except Exception as error:
-            print('Nenhuma dieta encontrada, criando a primeira dieta.')
+            print('No diets found, creating first one.')
             id = 1
 
         diet.append(str(id))
