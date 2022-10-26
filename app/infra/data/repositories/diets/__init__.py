@@ -1,1 +1,1 @@
-from diets_repository import DietsRepository
+from .diets_repository import DietsRepository
