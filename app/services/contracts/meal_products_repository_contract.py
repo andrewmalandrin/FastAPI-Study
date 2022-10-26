@@ -7,7 +7,6 @@ class GetMealProductByFiltersParams:
 
 @dataclass
 class SaveMealProductParams:
-    id: int
     meal_id: int
     product_id: int
     portion: int
