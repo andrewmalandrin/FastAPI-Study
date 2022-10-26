@@ -30,14 +30,19 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
         meal_product = []
 
         try:
-            id = self.get_meal_products()[-1]['id'] - 1
+            id = self.get_meal_products()[-1]['id'] + 1
         except Exception as error:
             id = 1
 
-        meal_product.append(id)
-        meal_product.append(params.meal_id)
-        meal_product.append(params.product_id)
-        meal_product.append(params.portion)
+        meal_product.append(str(id))
+        meal_product.append(str(params.meal_id))
+        meal_product.append(str(params.product_id))
+        meal_product.append(str(params.portion))
+
+        line = '\t'.join(meal_product)
+        line += '\n'
+
+        self.file_manager_instance.add_line_to_tsv_file(line=line)
 
         return {
             'id': id,

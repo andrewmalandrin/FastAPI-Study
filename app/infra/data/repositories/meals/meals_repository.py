@@ -37,8 +37,8 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
             print('Meals not found, creating first one.')
             id = 1
         
-        meal.append(id)
-        meal.append(params.diet_id)
+        meal.append(str(id))
+        meal.append(str(params.diet_id))
         meal.append(params.description)
 
         line = '\t'.join(meal)
