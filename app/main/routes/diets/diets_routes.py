@@ -10,7 +10,7 @@ from main import app
 TAG = ['Diets']
 
 @app.post(
-    '/diet/create-diet',
+    '/diet/create',
     responses= {
         HTTPStatus.CREATED.value: {
             'description': 'User created',
