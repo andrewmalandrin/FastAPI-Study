@@ -47,7 +47,7 @@ class CreateDiet(CreateDietContract):
         diet_response = CreateDietResponse(
             diet_id=diet.get('id'),
             user_id=diet.get('user_id'),
-            user_name=self.users_repository.get_user_by_filters(diet.get('user_id')),
+            user_name=self.users_repository.get_user_by_filters(diet.get('user_id')).get('name'),
             meals=response_meals
         )
         return diet_response
