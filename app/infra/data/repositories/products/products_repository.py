@@ -59,7 +59,7 @@ class ProductsRepository(BaseRepository, ProductsRepositoryContract):
             print('Returned data:', result)
             return result[0]
         except Exception as error:
-            raise ProductNotFound()
+            raise ProductNotFound() from error
         
     def update_product(self, params: UpdateProductFileParams):
         try:

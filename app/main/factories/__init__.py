@@ -8,3 +8,4 @@ from .get_user_by_id_factory import get_user_by_id_factory
 from .create_user_factory import create_user_factory
 from .update_user_factory import update_user_factory
 from .delete_user_factory import delete_user_factory
+from .create_diet_factory import create_diet_factory

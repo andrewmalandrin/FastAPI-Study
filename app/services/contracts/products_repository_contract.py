@@ -54,7 +54,7 @@ class ProductsRepositoryContract(ABC):
         raise NotImplementedError()
         
     @abstractmethod
-    def get_product_by_filters(self, id: str) -> List:
+    def get_product_by_filters(self, id: int) -> List:
         raise NotImplementedError()
 
     @abstractmethod
