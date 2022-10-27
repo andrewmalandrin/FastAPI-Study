@@ -1,9 +1,10 @@
 from http import HTTPStatus
 from fastapi import Response
 
-from app.domain.usecases import CreateDietParams, CreateDietResponse, GetDietResponse, GetDietParams
+from app.domain.usecases import CreateDietParams, CreateDietResponse, GetDietResponse, GetDietParams, UpdateDietParams,\
+    UpdateDietResponse
 from app.main.adapters import fastapi_adapter
-from app.main.factories import create_diet_factory, get_diet_factory
+from app.main.factories import create_diet_factory, get_diet_factory, update_diet_factory
 
 from main import app
 
@@ -62,6 +63,32 @@ def get_diet(diet_id: int, response: Response):
     }
 
     result = fastapi_adapter(request, get_diet_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+
+    return response
+
+@app.put(
+    '/diet/update',
+    responses= {
+        HTTPStatus.ACCEPTED.value: {
+            'description': 'Change accepted',
+            'model': UpdateDietResponse
+        }
+    },
+    status_code=HTTPStatus.ACCEPTED,
+    tags=TAG
+)
+def update_diet(params: UpdateDietParams, response: Response):
+    request = {
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+    result = fastapi_adapter(request, update_diet_factory())
 
     response.status_code = result.status_code
 
