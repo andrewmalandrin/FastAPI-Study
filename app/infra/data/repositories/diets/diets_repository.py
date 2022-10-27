@@ -1,5 +1,6 @@
 from typing import List, Dict
-from app.services.contracts import DietsRepositoryContract, GetDietFileParams, SaveDietFileParams
+from app.services.contracts import DietsRepositoryContract, GetDietFileParams, SaveDietFileParams,\
+    UpdateDietFileParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.errors import DietNotFound
 from app.services.helpers.diets import mount_diets_data
@@ -54,3 +55,48 @@ class DietsRepository(DietsRepositoryContract, BaseRepository):
             'user_id': params.user_id,
             'description': params.description
         }
+
+    def update_diet(self, params: UpdateDietFileParams) -> Dict:
+        
+        diets = mount_diets_data(self.file_manager_instance.read_tsv_file())
+
+        filters = [
+            ['id', params.id]
+            ]
+        
+        try:
+            diet_data = self._load_by_filters(filters=filters, data=diets)
+            print('Diet data: ', diet_data)
+
+            file = self.file_manager_instance.read_tsv_file()
+
+            diet = []
+
+            diet.append(str(params.id))
+            diet.append(str(diet_data[0].get('user_id')))
+            diet.append(params.description)
+
+        
+        except Exception as error:
+            raise DietNotFound() from error
+
+        else:
+            print('Diet: ', diet)
+
+            index = None
+
+            for idx, line in enumerate(file):
+                if line[0] == str(params.id):
+                    index = idx
+
+            self.file_manager_instance.update_tsv_file_line(
+                file=file,
+                new_line=diet,
+                index=index
+            )
+
+
+            return{
+                'id': diet[0],
+                'description': diet[2]
+            }

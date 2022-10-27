@@ -2,6 +2,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 @dataclass
+class UpdateDietFileParams:
+    id: int
+    description: str
+
+@dataclass
 class GetDietFileParams:
     id: int
 
@@ -21,4 +26,8 @@ class DietsRepositoryContract(ABC):
 
     @abstractmethod
     def create_diet(self, params: SaveDietFileParams):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def update_diet(self, params: UpdateDietFileParams):
         raise NotImplementedError()
