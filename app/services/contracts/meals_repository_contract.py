@@ -1,6 +1,12 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Optional
 
+
+@dataclass
+class GetMealsByFiltersParams:
+    id: Optional[int] = None
+    diet_id: Optional[int] = None
 @dataclass
 class GetMealByFiltersParams:
     id: int
@@ -21,4 +27,8 @@ class MealsRepositoryContract(ABC):
 
     @abstractmethod
     def create_meal(self, params: SaveMealParams):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_meals_by_filters(self, params: GetMealsByFiltersParams):
         raise NotImplementedError()

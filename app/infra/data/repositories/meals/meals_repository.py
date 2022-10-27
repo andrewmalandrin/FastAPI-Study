@@ -1,4 +1,6 @@
-from app.services.contracts import MealsRepositoryContract, GetMealByFiltersParams, SaveMealParams
+from typing import List
+
+from app.services.contracts import MealsRepositoryContract, GetMealByFiltersParams, GetMealsByFiltersParams, SaveMealParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.helpers.meals import mount_meals_data
 from app.services.errors import MealNotFound
@@ -15,14 +17,14 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
 
     def get_meal_by_filters(self, params: GetMealByFiltersParams):
         
-        filters = [
-            [
-                'id', params.id
-            ]
-        ]
+        meal = mount_meals_data(self.file_manager_instance.read_tsv_file())
+
+        filters = []
+
+        filters.append(['id', params.id])
         
         try:
-            result = self._load_by_filters(filters=filters)
+            result = self._load_by_filters(filters=filters, data=meal)
             print('Meals filter result: ')
             return result[0]
         except Exception as error:
@@ -51,3 +53,22 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
             'diet_id': params.diet_id,
             'description': params.description
         }
+
+    def get_meals_by_filters(self, params: GetMealsByFiltersParams) -> List:
+
+        meal = mount_meals_data(self.file_manager_instance.read_tsv_file())
+
+        filters = []
+
+        if params.id:
+            filters.append(['id', params.id])
+
+        if params.diet_id:
+            filters.append(['diet_id', params.diet_id])
+
+        try:
+            result = self._load_by_filters(filters=filters, data=meal)
+            print('Meals filter result: ')
+            return result
+        except Exception as error:
+            raise MealNotFound() from error

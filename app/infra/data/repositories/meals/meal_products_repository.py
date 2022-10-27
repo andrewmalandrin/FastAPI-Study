@@ -1,4 +1,6 @@
-from app.services.contracts import MealProductsRepositoryContract, GetMealProductByFiltersParams, SaveMealProductParams
+from typing import List
+
+from app.services.contracts import MealProductsRepositoryContract, GetMealProductByFiltersParams, GetMealProductsByFiltersParams, SaveMealProductParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.helpers.meals import mount_meal_products_data
 from app.services.errors import MealProductNotFound
@@ -13,6 +15,8 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
         return mount_meal_products_data(self.file_manager_instance.read_tsv_file())
 
     def get_meal_product_by_filters(self, params: GetMealProductByFiltersParams):
+        meal_products = mount_meal_products_data(self.file_manager_instance.read_tsv_file())
+        
         filters = [
             [
                 'id', params.id
@@ -20,9 +24,9 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
         ]
 
         try:
-            result = self._load_by_filters(filters=filters)
+            result = self._load_by_filters(filters=filters, data=meal_products)
             print('Meal products filter result: ', result)
-            return result
+            return result[0]
         except Exception as error:
             raise MealProductNotFound() from error
 
@@ -50,3 +54,21 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
             'product_id': params.product_id,
             'portion': params.portion
         }
+
+    def get_meal_products_by_filters(self, params: GetMealProductsByFiltersParams) -> List:
+        meal_products = mount_meal_products_data(self.file_manager_instance.read_tsv_file())
+        
+        filters = []
+
+        if params.id:
+            filters.append(['id', params.id])
+
+        if params.meal_id:
+            filters.append(['meal_id', params.meal_id])
+
+        try:
+            result = self._load_by_filters(filters=filters, data=meal_products)
+            print('Meal products filter result: ', result)
+            return result
+        except Exception as error:
+            raise MealProductNotFound() from error

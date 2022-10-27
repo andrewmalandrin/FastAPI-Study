@@ -24,7 +24,7 @@ class DietsRepository(DietsRepositoryContract, BaseRepository):
         ]
 
         try:
-            result = self._load_by_filters(filters=filters)
+            result = self._load_by_filters(filters=filters, data=diets)
             print('Diets filtered data: ', result)
             return result[0]
         except Exception as error:
