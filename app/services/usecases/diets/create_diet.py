@@ -4,6 +4,7 @@ from app.domain.usecases import CreateDietContract, CreateDietParams, CreateDiet
 
 from app.services.contracts import DietsRepositoryContract, MealsRepositoryContract, MealProductsRepositoryContract, SaveDietFileParams,\
     SaveMealParams, SaveMealProductParams, ProductsRepositoryContract, UsersRepositoryContract
+from app.services.errors import ProductNotFound
 from app.services.helpers.http import HttpResponse
 from app.services.helpers.http.http import HttpStatus
 
@@ -77,9 +78,14 @@ class CreateDiet(CreateDietContract):
                         portion=product.portion
                     )
                 )
-                current_product['name'] = self.products_repository.get_product_by_filters(
-                    id=product.product_id
-                ).get('name')
+                try:
+                    current_product['name'] = self.products_repository.get_product_by_filters(
+                        id=product.product_id
+                    ).get('name')
+                except ProductNotFound:
+                    return HttpStatus.not_found_404(
+                        f'Product id {product.product_id} not found'
+                    )
 
                 current_meal['products'].append(current_product)
 
