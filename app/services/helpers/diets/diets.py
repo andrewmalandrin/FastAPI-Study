@@ -8,8 +8,8 @@ def mount_diets_data(file: List) -> List:
             if row[0].isnumeric():
                 diet = {
                     'id': int(row[0]),
-                    'user_id': row[1],
-                    'description': int(row[2])
+                    'user_id': int(row[1]),
+                    'description': row[2]
                 }
                 diets.append(diet)
     print("Diets data: ", diets)

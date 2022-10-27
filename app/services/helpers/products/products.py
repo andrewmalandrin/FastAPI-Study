@@ -1,5 +1,5 @@
 from app.services.contracts import ProductsData
-from typing import List
+from typing import List, Dict
 
 def mount_products_data(file: List) -> ProductsData:
     products = []
@@ -20,3 +20,18 @@ def mount_products_data(file: List) -> ProductsData:
                 products.append(product)
     print("Products data: ", products)
     return products
+
+def calculate_portion(portion: int, product: List) -> Dict:
+
+    calculated_product = {}
+
+    calculated_product['id'] = product['id']
+    calculated_product['name'] = product['name']
+    calculated_product['portion'] = portion
+    calculated_product['portion_unity'] = product['portion_unity']
+    calculated_product['carbohidrates'] = round((product['carbohidrates']/product['portion']) * portion, 2)
+    calculated_product['proteins'] = round((product['proteins']/product['portion']) * portion, 2)
+    calculated_product['fat'] = round((product['fat']/product['portion']) * portion, 2)
+    calculated_product['saturated_fat'] = round((product['saturated_fat']/product['portion']) * portion, 2)
+
+    return calculated_product
