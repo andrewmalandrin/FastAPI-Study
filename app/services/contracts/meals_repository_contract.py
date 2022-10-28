@@ -2,6 +2,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Optional
 
+@dataclass
+class UpdateMealFileParams:
+    id: int
+    description: str
 
 @dataclass
 class GetMealsByFiltersParams:
@@ -31,4 +35,8 @@ class MealsRepositoryContract(ABC):
 
     @abstractmethod
     def get_meals_by_filters(self, params: GetMealsByFiltersParams):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def update_meal(self, params: UpdateMealFileParams):
         raise NotImplementedError()
