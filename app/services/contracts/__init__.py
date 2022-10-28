@@ -5,4 +5,4 @@ from .diets_repository_contract import DietsRepositoryContract, GetDietFileParam
 from .meals_repository_contract import MealsRepositoryContract, GetMealByFiltersParams, GetMealsByFiltersParams, SaveMealParams,\
      UpdateMealFileParams
 from .meal_products_repository_contract import MealProductsRepositoryContract, GetMealProductByFiltersParams,\
-     GetMealProductsByFiltersParams, SaveMealProductParams
+     GetMealProductsByFiltersParams, SaveMealProductParams, UpdateMealProductFileParams
