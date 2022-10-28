@@ -11,3 +11,4 @@ from .delete_user_factory import delete_user_factory
 from .create_diet_factory import create_diet_factory
 from .get_diet_factory import get_diet_factory
 from .update_diet_factory import update_diet_factory
+from .update_meal_factory import update_meal_factory
