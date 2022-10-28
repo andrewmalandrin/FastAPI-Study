@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Dict
 
-from app.services.contracts import MealsRepositoryContract, GetMealByFiltersParams, GetMealsByFiltersParams, SaveMealParams
+from app.services.contracts import MealsRepositoryContract, GetMealByFiltersParams, GetMealsByFiltersParams, SaveMealParams,\
+    UpdateMealFileParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.helpers.meals import mount_meals_data
 from app.services.errors import MealNotFound
@@ -72,3 +73,46 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
             return result
         except Exception as error:
             raise MealNotFound() from error
+
+    def update_meal(self, params: UpdateMealFileParams) -> Dict:
+
+        meals_data = mount_meals_data(self.file_manager_instance.read_tsv_file())
+
+        filters = []
+
+        filters.append(
+            ['id', params.id]
+        )
+
+        try:
+            meal_data = self._load_by_filters(filters=filters, data=meals_data)[0]
+            print('Meal filter result: ', meal_data)
+
+            file = self.file_manager_instance.read_tsv_file()
+
+            meal = []
+
+            meal.append(str(params.id))
+            meal.append(str(meal_data.get('diet_id')))
+            meal.append(params.description)
+
+        except Exception as error:
+            raise MealNotFound() from error
+
+        index = None
+
+        for idx, line in enumerate(file):
+            if line[0] == str(params.id):
+                index = idx
+
+        self.file_manager_instance.update_tsv_file_line(
+            file=file,
+            new_line=meal,
+            index=index
+        )
+
+        return{
+            'id': meal[0],
+            'diet_id': meal[1],
+            'description': meal[2]
+        }
