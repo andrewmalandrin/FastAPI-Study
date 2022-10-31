@@ -99,7 +99,7 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
         index = None
 
         for idx, line in enumerate(file):
-            if line[0] == str[params.id]:
+            if line[0] == str(params.id):
                 index = idx
 
         self.file_manager_instance.update_tsv_file_line(
