@@ -120,7 +120,9 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
     def delete_meal(self, id: int) -> str:
         file = self.file_manager_instance.read_tsv_file()
 
-        filters = ['id', id]
+        filters = [
+            ['id', id]
+        ]
 
         meal = self._load_by_filters(
             filters=filters, data=mount_meals_data(file)
