@@ -13,3 +13,4 @@ from .get_diet_factory import get_diet_factory
 from .update_diet_factory import update_diet_factory
 from .update_meal_factory import update_meal_factory
 from .update_meal_product_factory import update_meal_product_factory
+from .delete_meal_factory import delete_meal_factory

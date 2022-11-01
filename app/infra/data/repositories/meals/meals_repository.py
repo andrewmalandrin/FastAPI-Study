@@ -116,3 +116,28 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
             'diet_id': meal[1],
             'description': meal[2]
         }
+
+    def delete_meal(self, id: int) -> str:
+        file = self.file_manager_instance.read_tsv_file()
+
+        filters = [
+            ['id', id]
+        ]
+
+        meal = self._load_by_filters(
+            filters=filters, data=mount_meals_data(file)
+        )
+
+        if not meal:
+            raise MealNotFound()
+
+        for idx, line in enumerate(file):
+            if line[0] == str(id):
+                index = idx
+        
+        self.file_manager_instance.delete_tsv_file_line(
+            file=file,
+            index=index
+        )
+
+        return 'Meal deleted successfully'
