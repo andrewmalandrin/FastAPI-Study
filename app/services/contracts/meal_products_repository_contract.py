@@ -2,6 +2,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Optional
 
+@dataclass
+class DeleteMealProductFileParams:
+    id: Optional[int] = None
+    meal_id: Optional[int] = None
 
 @dataclass
 class UpdateMealProductFileParams:
@@ -42,4 +46,8 @@ class MealProductsRepositoryContract(ABC):
 
     @abstractmethod
     def update_meal_product(self, params: UpdateMealProductFileParams):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def delete_meal_product_by_filters(self, params: DeleteMealProductFileParams) -> str:
         raise NotImplementedError()
