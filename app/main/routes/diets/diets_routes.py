@@ -3,10 +3,10 @@ from fastapi import Response
 
 from app.domain.usecases import CreateDietParams, CreateDietResponse, GetDietResponse, GetDietParams, UpdateDietParams,\
     UpdateDietResponse, UpdateMealResponse, UpdateMealParams, UpdateMealProductParams, UpdateMealProductResponse,\
-        DeleteMealParams
+        DeleteMealParams, DeleteMealProductParams, DeleteMealProductResponse
 from app.main.adapters import fastapi_adapter
 from app.main.factories import create_diet_factory, get_diet_factory, update_diet_factory, update_meal_factory,\
-    update_meal_product_factory, delete_meal_factory
+    update_meal_product_factory, delete_meal_factory, delete_meal_product_factory
 
 from main import app
 
@@ -128,6 +128,34 @@ def update_meal(params: UpdateMealParams, response: Response):
 
     return response
 
+@app.delete(
+    '/meal/delete',
+    responses={
+        HTTPStatus.ACCEPTED.value: {
+            'Description': 'Meal deleted successfully'
+        },
+        HTTPStatus.NOT_FOUND.value: {
+            'description': 'Meal or meal product not found'
+        }
+    },
+    status_code=HTTPStatus.ACCEPTED,
+    tags=TAG
+)
+def delete_meal(params: DeleteMealParams, response: Response):
+    request = {
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+    result = fastapi_adapter(request, delete_meal_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+
+    return response
+
 @app.put(
     '/meal/product/update',
     responses= {
@@ -158,25 +186,26 @@ def update_meal_product(params: UpdateMealProductParams, response: Response):
     return response
 
 @app.delete(
-    '/meal/delete',
+    '/meal/product/delete',
     responses={
         HTTPStatus.ACCEPTED.value: {
-            'Description': 'Meal deleted successfully'
+            'description': 'Meal product deleted successfully',
+            'model': DeleteMealProductResponse
         },
         HTTPStatus.NOT_FOUND.value: {
-            'description': 'Meal or meal product not found'
+            'description': 'Meal product not found'
         }
     },
     status_code=HTTPStatus.ACCEPTED,
     tags=TAG
 )
-def delete_meal(params: DeleteMealParams, response: Response):
+def delete_meal_product(params: DeleteMealProductParams, response: Response):
     request = {
         'body': params,
         'headers': None,
         'query': None
     }
-    result = fastapi_adapter(request, delete_meal_factory())
+    result = fastapi_adapter(request, delete_meal_product_factory())
 
     response.status_code = result.status_code
 
