@@ -1,7 +1,7 @@
 from typing import List
 
 from app.services.contracts import MealProductsRepositoryContract, GetMealProductByFiltersParams, GetMealProductsByFiltersParams,\
-    SaveMealProductParams, UpdateMealProductFileParams
+    SaveMealProductParams, UpdateMealProductFileParams, DeleteMealProductFileParams
 from app.infra.data.repositories.helpers import BaseRepository
 from app.services.helpers.meals import mount_meal_products_data
 from app.services.errors import MealProductNotFound
@@ -114,3 +114,39 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
             'product_id': meal_product[2],
             'portion': meal_product[3]
         }
+
+    def delete_meal_product_by_filters(self, params: DeleteMealProductFileParams) -> str:
+        file = self.file_manager_instance.read_tsv_file()
+
+        filters = []
+        
+        if params.id:
+            filters.append(
+                ['id', params.id]
+            )
+        
+        if params.meal_id:
+            filters.append(
+                ['id', params.meal_id]
+            )
+
+        meal_product = self._load_by_filters(
+            filters=filters,
+            data=mount_meal_products_data(file)
+        )[0]
+
+        if not meal_product:
+            raise MealProductNotFound()
+
+        for idx, line in enumerate(file):
+            if (line[0] == str(params.id)) or (line[1] == str(params.meal_id)):
+                index = idx
+
+        self.file_manager_instance.delete_tsv_file_line(
+            file=file,
+            index=index
+        )
+
+        id = meal_product['id']
+
+        return f'Meal product id { id } deleted successfuly'
