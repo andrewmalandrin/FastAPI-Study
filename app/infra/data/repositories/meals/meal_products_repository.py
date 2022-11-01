@@ -133,7 +133,7 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
         meal_product = self._load_by_filters(
             filters=filters,
             data=mount_meal_products_data(file)
-        )
+        )[0]
 
         if not meal_product:
             raise MealProductNotFound()
