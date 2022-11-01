@@ -2,9 +2,10 @@ from http import HTTPStatus
 from fastapi import Response
 
 from app.domain.usecases import CreateDietParams, CreateDietResponse, GetDietResponse, GetDietParams, UpdateDietParams,\
-    UpdateDietResponse, UpdateMealResponse, UpdateMealParams
+    UpdateDietResponse, UpdateMealResponse, UpdateMealParams, UpdateMealProductParams, UpdateMealProductResponse
 from app.main.adapters import fastapi_adapter
-from app.main.factories import create_diet_factory, get_diet_factory, update_diet_factory, update_meal_factory
+from app.main.factories import create_diet_factory, get_diet_factory, update_diet_factory, update_meal_factory,\
+    update_meal_product_factory
 
 from main import app
 
@@ -118,6 +119,35 @@ def update_meal(params: UpdateMealParams, response: Response):
         'query': None
     }
     result = fastapi_adapter(request, update_meal_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+
+    return response
+
+@app.put(
+    '/meal/product/update',
+    responses= {
+        HTTPStatus.ACCEPTED.value: {
+            'description': 'Meal product change accepted',
+            'model': UpdateMealProductResponse
+        },
+        HTTPStatus.NOT_FOUND.value: {
+            'description': 'Meal product not found'
+        }
+    },
+    status_code=HTTPStatus.ACCEPTED,
+    tags=TAG
+)
+def update_meal_product(params: UpdateMealProductParams, response: Response):
+    request = {
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+    result = fastapi_adapter(request, update_meal_product_factory())
 
     response.status_code = result.status_code
 
