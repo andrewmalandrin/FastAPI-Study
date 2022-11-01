@@ -91,7 +91,7 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
             meal_product.append(str(params.id))
             meal_product.append(str(meal_product_data.get('meal_id')))
             meal_product.append(str(meal_product_data.get('product_id')))
-            meal_product.append(str(params.portions))
+            meal_product.append(str(params.portion))
 
         except Exception as error:
             raise MealProductNotFound() from error
