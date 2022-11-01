@@ -147,4 +147,6 @@ class MealProductsRepository(MealProductsRepositoryContract, BaseRepository):
             index=index
         )
 
-        return f'Meal product id {id} deleted successfuly'
+        id = meal_product['id']
+
+        return f'Meal product id { id } deleted successfuly'
