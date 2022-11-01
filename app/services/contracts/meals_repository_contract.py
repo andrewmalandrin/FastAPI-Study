@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Optional
 
+
 @dataclass
 class UpdateMealFileParams:
     id: int
@@ -39,4 +40,8 @@ class MealsRepositoryContract(ABC):
 
     @abstractmethod
     def update_meal(self, params: UpdateMealFileParams):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def delete_meal(self, id: int) -> str:
         raise NotImplementedError()
