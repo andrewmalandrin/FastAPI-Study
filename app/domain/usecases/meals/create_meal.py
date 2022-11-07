@@ -5,8 +5,7 @@ from app.domain.usecases import Usecase
 from app.services.helpers.string import convert_snake_to_camel
 from app.services.helpers.http import HttpResponse
 
-
-class ProductParams(BaseModel):
+class ProductResponse(BaseModel):
     product_id: int
     portion: int
     name: Optional[str] = None
@@ -15,10 +14,18 @@ class ProductParams(BaseModel):
         alias_generator = convert_snake_to_camel
         allow_population_by_field_name = True
 
+class ProductParams(BaseModel):
+    product_id: int
+    portion: int
+
+    class Config:
+        alias_generator = convert_snake_to_camel
+        allow_population_by_field_name = True
+
 class CreateMealResponse(BaseModel):
     id: int
     diet_id: int
-    products: List[ProductParams]
+    products: List[ProductResponse]
 
 class CreateMealParams(BaseModel):
     diet_id: int
