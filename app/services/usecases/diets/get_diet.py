@@ -1,6 +1,6 @@
 from typing import Dict
 
-from app.domain.usecases import GetDietContract, GetDietParams, GetDietResponse, Meal, Product
+from app.domain.usecases.diets import GetDietContract, GetDietParams, GetDietResponse, Meal, Product
 
 from app.services.contracts import DietsRepositoryContract, MealsRepositoryContract, MealProductsRepositoryContract,\
     ProductsRepositoryContract, UsersRepositoryContract, GetDietFileParams, GetMealProductsByFiltersParams

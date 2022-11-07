@@ -1,7 +1,7 @@
 from typing import List
 
 from app.services.contracts import ProductsRepositoryContract
-from app.domain.usecases import GetProductsContract, GetProductsResponse, Product
+from app.domain.usecases.products import GetProductsContract, GetProductsResponse, Product
 from app.services.helpers.http import HttpResponse
 from app.services.helpers.http.http import HttpStatus
 
@@ -23,8 +23,8 @@ class GetProducts(GetProductsContract):
                     name=product['name'],
                     portion=product['portion'],
                     portion_unity=product['portion_unity'],
-                    carbo=product['carbohidrates'],
-                    prot=product['proteins'],
+                    carbohidrates=product['carbohidrates'],
+                    proteins=product['proteins'],
                     fat=product['fat'],
                     saturated_fat=product['saturated_fat']
                 )
