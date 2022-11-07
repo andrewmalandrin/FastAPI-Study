@@ -37,7 +37,7 @@ class MealsRepository(MealsRepositoryContract, BaseRepository):
         try:
             id = self.get_meals()[-1]['id'] + 1
         except Exception as error:
-            print('Meals not found, creating first one.')
+            print('No meal found, creating first one.')
             id = 1
         
         meal.append(str(id))
