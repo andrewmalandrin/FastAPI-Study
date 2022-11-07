@@ -20,7 +20,7 @@ class CreateMeal(CreateMealContract):
 
     def _validate_product(self, product: ProductParams) -> bool:
         try:
-            self.products_repository.get_product_by_filters(id=product.id)
+            self.products_repository.get_product_by_filters(id=product.product_id)
         except Exception as error:
             raise ProductNotFound from error
         return True
