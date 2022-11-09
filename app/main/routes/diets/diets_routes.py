@@ -3,10 +3,12 @@ from fastapi import Response
 
 from app.domain.usecases import CreateDietParams, CreateDietResponse, GetDietResponse, GetDietParams, UpdateDietParams,\
     UpdateDietResponse, UpdateMealResponse, UpdateMealParams, UpdateMealProductParams, UpdateMealProductResponse,\
-        DeleteMealParams, DeleteMealProductParams, DeleteMealProductResponse, CreateMealParams, CreateMealResponse
+        DeleteMealParams, DeleteMealProductParams, DeleteMealProductResponse, CreateMealParams, CreateMealResponse,\
+            CreateMealProductParams, CreateMealProductResponse
 from app.main.adapters import fastapi_adapter
 from app.main.factories import create_diet_factory, get_diet_factory, update_diet_factory, update_meal_factory,\
-    update_meal_product_factory, delete_meal_factory, delete_meal_product_factory, create_meal_factory
+    update_meal_product_factory, delete_meal_factory, delete_meal_product_factory, create_meal_factory,\
+        create_meal_product_factory
 
 from main import app
 
@@ -178,6 +180,35 @@ def delete_meal(params: DeleteMealParams, response: Response):
         'query': None
     }
     result = fastapi_adapter(request, delete_meal_factory())
+
+    response.status_code = result.status_code
+
+    if result.body:
+        return result.body
+
+    return response
+
+@app.post(
+    '/meal/product/create',
+    responses= {
+        HTTPStatus.CREATED.value: {
+            'descriprion': 'Meal product created',
+            'model': CreateMealProductResponse
+        },
+        HTTPStatus.NOT_FOUND.value: {
+            'description': 'Product or meal not found',
+        }
+    },
+    status_code=HTTPStatus.CREATED,
+    tags=TAG
+)
+def create_meal_product(params: CreateMealProductParams, response: Response):
+    request = {
+        'body': params,
+        'headers': None,
+        'query': None
+    }
+    result = fastapi_adapter(request, create_meal_product_factory())
 
     response.status_code = result.status_code
 

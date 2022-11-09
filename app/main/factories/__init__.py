@@ -16,3 +16,4 @@ from .update_meal_factory import update_meal_factory
 from .update_meal_product_factory import update_meal_product_factory
 from .delete_meal_factory import delete_meal_factory
 from .delete_meal_product_factory import delete_meal_product_factory
+from .create_meal_product_factory import create_meal_product_factory
