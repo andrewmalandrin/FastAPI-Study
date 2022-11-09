@@ -6,3 +6,4 @@ from .delete_meal_product import DeleteMealProductContract, DeleteMealProductPar
     DeleteMealProductResponse
 from .create_meal import CreateMealContract, CreateMealParams, CreateMealResponse,\
     ProductParams
+from .create_meal_product import CreateMealProductContract, CreateMealProductParams, CreateMealProductResponse

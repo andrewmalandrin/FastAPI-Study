@@ -25,6 +25,6 @@ class DeleteMealProduct(DeleteMealProductContract):
 
         return HttpStatus.accepted_202(
             DeleteMealProductResponse(
-                f'Meal product id {params.id} deleted'
+                message=f'Meal product id {params.id} deleted'
             )
         )
